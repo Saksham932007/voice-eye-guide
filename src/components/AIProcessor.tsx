@@ -29,15 +29,15 @@ export const AIProcessor = () => {
           contents: [{
             parts: [
               {
-                text: `Analyze this image for a visually impaired user. Provide:
-                1. A clear, concise description of what's in front of them
-                2. Navigation guidance (obstacles, clear paths, distances)
-                3. Object identification (especially useful items)
-                4. Currency detection if any bills/coins are visible
-                5. Text reading if any readable text is present
-                6. Safety warnings for potential hazards
+                text: `Analyze this image for a visually impaired user with extreme detail and precision. Provide:
+                1. Comprehensive scene description with spatial relationships
+                2. Detailed navigation guidance with specific directions and distances
+                3. Complete object identification with exact positions and descriptions
+                4. Currency detection with exact denominations if visible
+                5. Full text reading of any readable content
+                6. Detailed safety warnings for potential hazards
                 
-                Format your response as natural, spoken language that would be helpful for someone who cannot see. Be specific about locations (left, right, center, close, far) and prioritize safety and navigation information.`
+                Be extremely specific about locations, distances, colors, textures, and spatial relationships. Use clock positions (12 o'clock, 3 o'clock) and estimated distances. Describe everything as if guiding someone step by step through the environment.`
               },
               {
                 inline_data: {
@@ -48,8 +48,8 @@ export const AIProcessor = () => {
             ]
           }],
           generationConfig: {
-            maxOutputTokens: 1024,
-            temperature: 0.4,
+            maxOutputTokens: 2048,
+            temperature: 0.2,
           }
         })
       });
@@ -59,7 +59,7 @@ export const AIProcessor = () => {
       }
 
       const result = await response.json();
-      const description = result.candidates[0]?.content?.parts[0]?.text || 'Unable to analyze the image.';
+      const description = result.candidates[0]?.content?.parts[0]?.text || 'I cannot analyze this image at the moment. Please try again.';
       
       // Parse the response to extract structured information
       return {
@@ -132,8 +132,8 @@ export const AIProcessor = () => {
   );
 };
 
-// Export the analyze function for use in other components
-export const analyzeImageWithAI = async (imageData: string) => {
+// Export the analyze function properly
+export const analyzeImageWithAI = (imageData: string) => {
   const processor = new AIProcessor();
-  return processor;
+  return processor.analyzeImage(imageData);
 };
